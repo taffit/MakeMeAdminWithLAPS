@@ -13,7 +13,7 @@ You can use one of the files in the repository to configure the defaults for `Ma
 
 Adjust the invocation of the script, e. g. some batch-file, a shortcut (see below), put it somewhere available in the `$PATH` for manual invocation, &hellip;
 
-The PowerShell-script [`CreateShortcutForMakeMeAdminWithLAPS.ps1`](./CreateShortcutForMakeMeAdminWithLAPS.ps1) creates a shortcut on the desktop that, once invoked, will immediately display the prompt for the LAPS-admin-credentials:
+The PowerShell-script [`CreateShortcutForMakeMeAdminWithLAPS.ps1`](./CreateShortcutForMakeMeAdminWithLAPS.ps1) creates a shortcut on the desktop that, once invoked, will immediately display the prompt for the LAPS-admin-credentials. It expects the script in the `System32`-subfolder of the `Windows`-folder:
 ```PowerShell
 $shortcut = (New-Object -ComObject Wscript.Shell).CreateShortcut("$([Environment]::GetFolderPath('Desktop'))\MakeMeAdminWithLAPS.lnk")
 $shortcut.TargetPath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
