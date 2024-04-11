@@ -11,7 +11,18 @@ You can use one of the files in the repository to configure the defaults for `Ma
 - You can configure the period after which the user is removed *from the list of users, that are allowed to use `MakeMeAdmin`,* again (`$removal`, 30 seconds as default).
 - If `$debug` (`$false`) is set to `$true`, the window will remain and show a bit more information. It's more a flag the you can use to output some more information if needed.
 
-Adjust the invocation of the script, e. g. some batch-file, a shortcut, put it somewhere available in the `$PATH` for manual invocation, &hellip;
+Adjust the invocation of the script, e. g. some batch-file, a shortcut (see below), put it somewhere available in the `$PATH` for manual invocation, &hellip;
+
+The PowerShell-script `CreateShortcutForMakeMeAdminWithLAPS.ps1` creates a shortcut on the desktop that, once invoked, will immediately display the prompt for the LAPS-admin-credentials:
+```PowerShell
+$shortcut = (New-Object -ComObject Wscript.Shell).CreateShortcut("$([Environment]::GetFolderPath('Desktop'))\MakeMeAdminWithLAPS.lnk")
+$shortcut.TargetPath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
+$shortcut.Arguments = "-WindowStyle Hidden -File ""$env:SystemRoot\System32\MakeMeAdminWithLAPS.ps1"""
+$shortcut.IconLocation = "$env:ProgramFiles\Make Me Admin\MakeMeAdminUI.exe"
+$shortcut.WorkingDirectory = "$env:SystemRoot\System32"
+$shortcut.WindowStyle = 7 #Minimized
+$shortcut.Save()
+```
 
 ### Make! Me! Admin!
 - If invoked, you are prompted for the credentials of the LAPS-admin initially. The good thing: you can use copy/paste to paste the LAPS-password here.
@@ -23,4 +34,9 @@ Adjust the invocation of the script, e. g. some batch-file, a shortcut, put it s
 
 # Caveat
 There is no guarantee that the user is removed from the registry key again (e. g. if the background-job is stopped for whatever reason)! So you better check this (either invoke `MakeMeAdmin` and check if both buttons are disabled or check the registry key `HKLM\SOFTWARE\Sinclair Community College\Make Me Admin\Allowed Entities` and `HKLM\SOFTWARE\Policies\Sinclair Community College\Make Me Admin\Allowed Entities` before leaving the user on its own again.
+
+# ToDo
+- Currently, if you don't provide credentials or an empty password, it still prompts for credentials, but this time in a secure shell. Instead the script should terminate, eventually with a related message.
+- Ideally, **AFTER** the elevated prompt `MakeMeAdminUI.exe` should be started directly. You can't just start it, as long as the current user is not entered in the registry yet.    
+  ***HINT:***: Check for the registry key for a certain time.
 
