@@ -13,7 +13,7 @@ You can use one of the files in the repository to configure the defaults for `Ma
 
 Adjust the invocation of the script, e. g. some batch-file, a shortcut (see below), put it somewhere available in the `$PATH` for manual invocation, &hellip;
 
-The PowerShell-script `CreateShortcutForMakeMeAdminWithLAPS.ps1` creates a shortcut on the desktop that, once invoked, will immediately display the prompt for the LAPS-admin-credentials:
+The PowerShell-script [`CreateShortcutForMakeMeAdminWithLAPS.ps1`](./CreateShortcutForMakeMeAdminWithLAPS.ps1) creates a shortcut on the desktop that, once invoked, will immediately display the prompt for the LAPS-admin-credentials:
 ```PowerShell
 $shortcut = (New-Object -ComObject Wscript.Shell).CreateShortcut("$([Environment]::GetFolderPath('Desktop'))\MakeMeAdminWithLAPS.lnk")
 $shortcut.TargetPath = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
@@ -38,5 +38,5 @@ There is no guarantee that the user is removed from the registry key again (e. g
 # ToDo
 - Currently, if you don't provide credentials or an empty password, it still prompts for credentials, but this time in a secure shell. Instead the script should terminate, eventually with a related message.
 - Ideally, **AFTER** the elevated prompt `MakeMeAdminUI.exe` should be started directly. You can't just start it, as long as the current user is not entered in the registry yet.    
-  ***HINT:***: Check for the registry key for a certain time.
+  ***HINT:*** Check for the registry key for a certain time.
 
